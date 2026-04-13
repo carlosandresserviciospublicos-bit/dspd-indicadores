@@ -1,13 +1,13 @@
 import streamlit as st
 
-# 1. Configuración de página con icono oficial
+# 1. Configuración de página
 st.set_page_config(
     page_title="DSPD Villavicencio", 
     layout="wide", 
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# 2. Estilo CSS Profesional (Mejorado)
+# 2. Estilo CSS Profesional
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
@@ -19,17 +19,7 @@ st.markdown("""
         color: white;
     }
 
-    /* Navbar Estilizada */
-    .nav-link {
-        color: rgba(255,255,255,0.8);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 14px;
-        transition: 0.3s;
-    }
-    .nav-link:hover { color: #4cc9f0; }
-
-    /* Tarjetas de Empresas (Basado en tu imagen image_0de49c) */
+    /* Tarjetas de Empresas */
     .company-card {
         background: white;
         padding: 20px;
@@ -42,7 +32,7 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    /* Botones Card (Derecha) */
+    /* Botones Card del Inicio */
     div.stButton > button {
         background: rgba(255, 255, 255, 0.08) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -50,6 +40,7 @@ st.markdown("""
         border-radius: 20px !important;
         height: 150px !important;
         transition: all 0.4s ease !important;
+        font-weight: 600 !important;
     }
     div.stButton > button:hover {
         background: rgba(255, 255, 255, 0.15) !important;
@@ -57,6 +48,7 @@ st.markdown("""
         border: 1px solid #4cc9f0 !important;
     }
 
+    /* Ocultar elementos de Streamlit */
     header, footer {visibility: hidden;}
     </style>
     """, unsafe_allow_html=True)
@@ -69,35 +61,34 @@ def set_page(name):
     st.session_state.page = name
 
 # --- HEADER / NAVBAR ---
-col_logo, col_menu = st.columns([1, 2])
-with col_logo:
-    st.markdown("""
-        <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
-            <img src="https://www.villavicencio.gov.co/Transparencia/Documents/Logos%20Alcaldia/Escudo%20Alcaldia%20PNG.png" width="55">
-            <div style="line-height: 1.1;">
-                <div style="font-weight: 800; font-size: 16px;">DSPD Villavicencio</div>
-                <div style="font-size: 11px; opacity: 0.7;">Alcaldía de Villavicencio</div>
-            </div>
+st.markdown("""
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 25px;">
+        <img src="https://www.villavicencio.gov.co/Transparencia/Documents/Logos%20Alcaldia/Escudo%20Alcaldia%20PNG.png" width="55">
+        <div style="line-height: 1.1;">
+            <div style="font-weight: 800; font-size: 18px;">Dirección de Servicios Públicos Domiciliarios</div>
+            <div style="font-size: 12px; opacity: 0.7;">Alcaldía de Villavicencio</div>
         </div>
-    """, unsafe_allow_html=True)
+    </div>
+""", unsafe_allow_html=True)
 
-with col_menu:
-    cols = st.columns(6)
-    if cols[0].button("¿Qué hacemos?", key="m1"): set_page('Inicio')
-    if cols[1].button("Empresas", key="m2"): set_page('Empresas')
-    if cols[2].button("Orientación", key="m3"): set_page('Orientacion')
-    if cols[3].button("Documentos", key="m4"): set_page('Documentos')
-    if cols[4].button("Noticias", key="m5"): set_page('Noticias')
-    if cols[5].button("Contacto", key="m6"): set_page('Contacto')
+# Menú de navegación superior
+cols_menu = st.columns(6)
+if cols_menu[0].button("🏠 Inicio", key="nav_ini"): set_page('Inicio')
+if cols_menu[1].button("🏢 Empresas", key="nav_emp"): set_page('Empresas')
+if cols_menu[2].button("📞 Orientación", key="nav_ori"): set_page('Orientacion')
+if cols_menu[3].button("📄 Documentos", key="nav_doc"): set_page('Documentos')
+if cols_menu[4].button("📰 Noticias", key="nav_not"): set_page('Noticias')
+if cols_menu[5].button("✉️ Contacto", key="nav_con"): set_page('Contacto')
+
+st.markdown("---")
 
 # --- LÓGICA DE PÁGINAS ---
 
 if st.session_state.page == 'Inicio':
     col_left, col_right = st.columns([1.2, 1], gap="large")
     with col_left:
-        st.markdown("<br><br>", unsafe_allow_html=True)
         st.markdown("""
-            <h1 style='font-size: 52px; font-weight: 800; line-height: 1;'>
+            <h1 style='font-size: 48px; font-weight: 800; line-height: 1.1;'>
                 Somos el <span style='color: #4cc9f0;'>puente</span> entre la ciudadanía y los prestadores
             </h1>
             <p style='font-size: 18px; opacity: 0.9; margin: 25px 0;'>
@@ -105,24 +96,22 @@ if st.session_state.page == 'Inicio':
             </p>
         """, unsafe_allow_html=True)
         c1, c2 = st.columns(2)
-        with c1: st.button("Ver empresas prestadoras", on_click=lambda: set_page('Empresas'), use_container_width=True)
-        with c2: st.button("Solicitar orientación", on_click=lambda: set_page('Orientacion'), use_container_width=True)
+        if c1.button("Ver empresas prestadoras", key="btn_emp_home"): set_page('Empresas')
+        if c2.button("Solicitar orientación", key="btn_ori_home"): set_page('Orientacion')
 
     with col_right:
-        st.markdown("<br><br>", unsafe_allow_html=True)
         g1, g2 = st.columns(2)
         with g1:
-            st.button("⚖️\n\nDerechos", use_container_width=True)
-            st.button("🏢\n\nEmpresas", on_click=lambda: set_page('Empresas'), use_container_width=True)
+            st.button("⚖️\n\nDerechos", key="card_der")
+            st.button("🏢\n\nEmpresas", key="card_emp", on_click=lambda: set_page('Empresas'))
         with g2:
-            st.button("🗺️\n\nRutas de atención", use_container_width=True)
-            st.button("ℹ️\n\nOrientación DSP", on_click=lambda: set_page('Orientacion'), use_container_width=True)
+            st.button("🗺️\n\nRutas de atención", key="card_rut")
+            st.button("ℹ️\n\nOrientación DSP", key="card_ori", on_click=lambda: set_page('Orientacion'))
 
 elif st.session_state.page == 'Empresas':
     st.markdown("## 🏢 Empresas Prestadoras")
     st.write("Consulta el sitio oficial según el servicio que necesites.")
     
-    # Listado de empresas (Basado en image_0de49c)
     empresas = [
         {"n": "EAAV", "d": "Acueducto y Alcantarillado", "l": "https://www.eaav.gov.co"},
         {"n": "EMSA", "d": "Electrificadora del Meta", "l": "https://www.emsa-esp.com.co"},
@@ -131,41 +120,63 @@ elif st.session_state.page == 'Empresas':
     ]
     
     for emp in empresas:
-        with st.container():
-            st.markdown(f"""
-                <div class="company-card">
-                    <div>
-                        <strong>{emp['n']}</strong> — {emp['d']}<br>
-                        <small style="color: gray;">Sitio oficial</small>
-                    </div>
-                    <a href="{emp['l']}" target="_blank" style="text-decoration:none;">
-                        <button style="padding: 8px 20px; border-radius: 8px; border: 1px solid #1e45a5; background: transparent; color: #1e45a5; cursor: pointer;">Ir al sitio</button>
-                    </a>
+        st.markdown(f"""
+            <div class="company-card">
+                <div>
+                    <strong style="font-size: 18px;">{emp['n']}</strong><br>
+                    <span style="color: #666;">{emp['d']}</span>
                 </div>
-            """, unsafe_allow_html=True)
+                <a href="{emp['l']}" target="_blank" style="text-decoration:none;">
+                    <button style="padding: 10px 20px; border-radius: 10px; border: 1px solid #1e45a5; background: white; color: #1e45a5; cursor: pointer; font-weight: bold;">Ir al sitio</button>
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
 
 elif st.session_state.page == 'Orientacion':
-    st.markdown("## 📞 Formulario de Orientación")
-    with st.form("orientacion_form"):
+    st.markdown("## 📞 Formulario de Orientación Ciudadana")
+    with st.form("form_orientacion"):
         c1, c2 = st.columns(2)
-        c1.text_input("Nombre completo *")
-        c2.text_input("Correo electrónico *")
+        nombre = c1.text_input("Nombre completo *")
+        email = c2.text_input("Correo electrónico *")
+        
         t1, t2 = st.columns(2)
-        t1.selectbox("Tema de orientación *", ["Facturación", "Calidad del servicio", "Peticiones/Quejas", "Otros"])
-        t2.selectbox("Servicio *", ["Acueducto", "Energía", "Gas", "Aseo"])
-        st.text_area("Descripción del caso")
-        st.checkbox("Declaro que comprendo que este canal es de orientación.")
-        st.form_submit_button("Enviar solicitud")
+        tema = t1.selectbox("Tema de orientación *", ["Facturación", "Calidad del servicio", "Peticiones/Quejas", "Otros"])
+        servicio = t2.selectbox("Servicio *", ["Acueducto", "Energía", "Gas", "Aseo"])
+        
+        asunto = st.text_input("Asunto *")
+        desc = st.text_area("Descripción detallada del caso")
+        
+        acepta = st.checkbox("Declaro que comprendo que este canal es de orientación.")
+        
+        submit = st.form_submit_button("Enviar solicitud")
+        if submit:
+            if not nombre or not email:
+                st.error("Por favor completa los campos obligatorios.")
+            else:
+                st.success("Solicitud recibida. Nos contactaremos contigo pronto.")
 
 elif st.session_state.page == 'Noticias':
     st.markdown("## 📰 Noticias y comunicados")
     c1, c2, c3 = st.columns(3)
     with c1:
-        st.info("**Jornada de orientación**\n\nPróximo 15 de mayo en el barrio San Benito.")
+        st.info("**Jornada de orientación**\n\nAtención en el barrio San Benito este viernes.")
     with c2:
-        st.warning("**Interrupciones programadas**\n\nMantenimiento preventivo red eléctrica.")
+        st.warning("**Interrupción de servicio**\n\nMantenimiento preventivo en la red eléctrica.")
     with c3:
-        st.success("**Plazos PQR**\n\nRecuerda los tiempos legales para respuestas.")
+        st.success("**Nueva Normativa**\n\nConsulta los cambios en la ley de servicios públicos.")
+
+elif st.session_state.page == 'Contacto':
+    st.markdown("## ✉️ Contacto")
+    st.markdown("""
+        **Dirección:** Alcaldía de Villavicencio - Piso 4<br>
+        **Horario:** Lunes a Viernes, 8:00 a.m. - 5:00 p.m.<br>
+        **Correo institucional:** serviciospublicos@villavicencio.gov.co
+    """, unsafe_allow_html=True)
 
 # --- PIE DE PÁGINA ---
-st.markdown(
+st.markdown(f"""
+    <div style="margin-top: 50px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; opacity: 0.6;">
+        © 2026 Alcaldía de Villavicencio — Dirección de Servicios Públicos Domiciliarios<br>
+        Sección actual: {st.session_state.page}
+    </div>
+""", unsafe_allow_html=True)
