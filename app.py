@@ -8,23 +8,31 @@ st.set_page_config(
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# --- ESCUDO EN BASE64 (Código directo para que siempre funcione) ---
-# Este es el código de texto de la imagen del escudo
-img_data = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAASFBMVEVHcEwAAAAfHh8WFhYmJiYtLS07OzsAAAD///8fHx8WFhYmJiYtLS07OzsAAAD///8fHx8WFhYmJiYtLS07OzsAAAD///8fHx/PPr7XAAAAFXRSTlMA9vD08PTw9PD08PTw9PD08PTw9CCvX98AAAFMSURBVGje7ZfXdsMgDETNInrvvf//ZatYIsX0mDgnidmH86S8yAayIsRqtVqtVqvVarVatT8r6vWGaI60C74O9UfQO9I52I70DvbD6xV9I0v0jizRO7JE78gSvSNL9I4s0TuyRO/IEr0jS/SOLNE7skTvyBK9I0v0jizRO7JE78gS/6N+oE9kiT6RJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+mH/pD7Va/6IeMVsj62S2P8AAAAAElFTkSuQmCC"
+# --- HEADER / NAVBAR (Línea 11 en adelante) ---
+col1, col2 = st.columns([1, 5])
 
-# --- HEADER / NAVBAR ---
-# Creamos dos columnas: una pequeña para el logo y una grande para el texto
-col_logo, col_titulo = st.columns([1, 4])
+with col1:
+    try:
+        # Intenta cargar el archivo que subiste a GitHub
+        st.image("logo.png", width=90)
+    except:
+        # Si aún no se ha subido o falla, usa el link directo de Wikimedia
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png", width=90)
 
-with col_logo:
-    # Usamos el comando nativo de Streamlit para cargar la imagen
-    # Esta URL es directa de Wikimedia y Streamlit la procesa mejor así
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/800px-Escudo_de_Villavicencio.png",
-        width=80
-    )
+with col2:
+    st.markdown("""
+        <div style="margin-top: -5px;">
+            <h1 style="color: white; margin-bottom: 0; font-size: 26px;">
+                Dirección de Servicios Públicos Domiciliarios
+            </h1>
+            <p style="color: #4cc9f0; font-size: 16px; margin-top: 2px;">
+                Alcaldía de Villavicencio
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
-with col_titulo:
+st.markdown("---")
+
     # El texto lo dejamos en HTML para que mantenga el estilo elegante
     st.markdown("""
         <div style="line-height: 1.2; margin-top: 10px;">
