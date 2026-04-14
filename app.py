@@ -61,17 +61,16 @@ def set_page(name):
     st.session_state.page = name
 
 # --- HEADER / NAVBAR ---
+# --- HEADER / NAVBAR ---
 st.markdown("""
-    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Escudo_de_Villavicencio.png" width="60">
-        <div style="line-height: 1.2; color: white;">
-            <div style="font-weight: 800; font-size: 20px; letter-spacing: 0.5px;">Dirección de Servicios Públicos Domiciliarios</div>
-            <div style="font-size: 14px; opacity: 0.9;">Alcaldía de Villavicencio</div>
+    <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 30px; padding: 10px 0;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Escudo_de_Villavicencio.png" width="75" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));">
+        <div style="line-height: 1.1; color: white;">
+            <div style="font-weight: 800; font-size: 24px; font-family: 'Inter', sans-serif;">Dirección de Servicios Públicos Domiciliarios</div>
+            <div style="font-size: 16px; font-weight: 400; opacity: 0.95; font-family: 'Inter', sans-serif;">Alcaldía de Villavicencio</div>
         </div>
     </div>
 """, unsafe_allow_html=True)
-
-
 
 # Menú de navegación superior
 cols_menu = st.columns(6)
