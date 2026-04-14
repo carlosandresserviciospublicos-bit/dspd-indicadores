@@ -10,6 +10,7 @@ st.set_page_config(
 # 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
     <style>
+   
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
     
     :root {
@@ -70,6 +71,34 @@ st.markdown("""
 
     h1, h2, h3 { color: white !important; font-weight: 800 !important; }
     .accent-tag { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 13px; }
+    
+    
+    
+    /* Hacer que el contenedor principal del encabezado sea fijo */
+header[data-testid="stHeader"] {
+    display: none; /* Opcional: oculta la barra vacía por defecto de Streamlit */
+}
+
+/* Estilo para tu encabezado personalizado */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Asegura que esté por encima de todo el contenido */
+    background-color: #2B5AC4; /* El azul de tu marca */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 0;
+}
+
+/* IMPORTANTE: Agrega un margen al cuerpo para que el contenido no se oculte tras el encabezado */
+.main-content {
+    margin-top: 100px; /* Ajusta según el alto de tu header */
+}
+    
+    
+    
+    
     </style>
 """, unsafe_allow_html=True)
 
