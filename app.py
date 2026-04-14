@@ -8,25 +8,31 @@ st.set_page_config(
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# --- HEADER / NAVBAR ---
-# Usamos columnas nativas: son más estables que el HTML puro en Streamlit
-col_logo, col_text = st.columns([1, 4])
+# --- HEADER / NAVBAR (Estilo Web Anterior + Logo Local) ---
+# Usamos columnas para asegurar que el logo no se rompa ni se desplace
+col_logo, col_text = st.columns([1, 5])
 
 with col_logo:
-    # Usamos st.image directamente, que es el comando más robusto del sistema
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png",
-        width=80
-    )
+    try:
+        # Cargamos el logo desde tu repositorio
+        st.image("logo.png", width=85)
+    except:
+        # Respaldo visual si el archivo no carga (mantiene el círculo del diseño original)
+        st.markdown("""
+            <div style="background: white; border-radius: 50%; width: 75px; height: 75px; 
+            display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 30px;">🏛️</span>
+            </div>
+        """, unsafe_allow_html=True)
 
 with col_text:
-    # Solo el texto va en HTML para mantener la tipografía Montserrat del sitio original
+    # Aplicamos la tipografía Montserrat y el estilo del código anterior
     st.markdown("""
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
         </style>
         <div style="margin-top: 5px; font-family: 'Montserrat', sans-serif;">
-            <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 800; line-height: 1.1;">
+            <h1 style="color: white; margin: 0; font-size: 26px; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px;">
                 Dirección de Servicios Públicos Domiciliarios
             </h1>
             <p style="color: #00B7FF; margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
@@ -35,7 +41,8 @@ with col_text:
         </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<hr style='margin: 10px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);'>", unsafe_allow_html=True)
+# Línea divisoria sutil (border-white/20 del estilo original)
+st.markdown("<hr style='margin: 15px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);'>", unsafe_allow_html=True)
 
 
 # 2. Estilo CSS Profesional
