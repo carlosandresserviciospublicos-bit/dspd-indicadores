@@ -8,22 +8,34 @@ st.set_page_config(
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# --- HEADER / NAVBAR (Versión Estilo Web Anterior) ---
-st.markdown("""
-    <div style="display: flex; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 30px;">
-        <div style="background: white; padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png" width="55">
-        </div>
-        <div style="font-family: 'Montserrat', sans-serif;">
-            <h1 style="color: white; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1;">
+# --- HEADER / NAVBAR ---
+# Usamos columnas nativas: son más estables que el HTML puro en Streamlit
+col_logo, col_text = st.columns([1, 4])
+
+with col_logo:
+    # Usamos st.image directamente, que es el comando más robusto del sistema
+    st.image(
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png",
+        width=80
+    )
+
+with col_text:
+    # Solo el texto va en HTML para mantener la tipografía Montserrat del sitio original
+    st.markdown("""
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
+        </style>
+        <div style="margin-top: 5px; font-family: 'Montserrat', sans-serif;">
+            <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 800; line-height: 1.1;">
                 Dirección de Servicios Públicos Domiciliarios
             </h1>
-            <p style="color: #00B7FF; margin: 0; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+            <p style="color: #00B7FF; margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
                 Alcaldía de Villavicencio
             </p>
         </div>
-    </div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+
+st.markdown("<hr style='margin: 10px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);'>", unsafe_allow_html=True)
 
 
 # 2. Estilo CSS Profesional
