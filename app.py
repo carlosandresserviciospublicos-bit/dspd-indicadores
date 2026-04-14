@@ -13,18 +13,21 @@ st.set_page_config(
 img_data = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAASFBMVEVHcEwAAAAfHh8WFhYmJiYtLS07OzsAAAD///8fHx8WFhYmJiYtLS07OzsAAAD///8fHx8WFhYmJiYtLS07OzsAAAD///8fHx/PPr7XAAAAFXRSTlMA9vD08PTw9PD08PTw9PD08PTw9CCvX98AAAFMSURBVGje7ZfXdsMgDETNInrvvf//ZatYIsX0mDgnidmH86S8yAayIsRqtVqtVqvVarVatT8r6vWGaI60C74O9UfQO9I52I70DvbD6xV9I0v0jizRO7JE78gSvSNL9I4s0TuyRO/IEr0jS/SOLNE7skTvyBK9I0v0jizRO7JE78gS/6N+oE9kiT6RJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+mH/pD7Va/6IeMVsj62S2P8AAAAAElFTkSuQmCC"
 
 # --- HEADER / NAVBAR ---
-# Definimos el logo directamente en texto (Base64)
-# Este código es una imagen real para probar la visualización
-logo_base64 = "iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH6AMXFisYFr53GAAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAABRSURBVGje7cExAQAAAMKg9U9tDB8gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIC3AZS8AAClm0S0AAAAAElFTkSuQmCC"
+# Usamos un logo en Base64 optimizado y ultra-ligero para probar
+logo_base64 = "iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH6AMXFisYFr53GAAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAABPSURBVGje7cexCQAAMAgDwf9/2sIidOn9YIuSInIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKYAt9wAApS8T90AAAAASUVORK5CYII="
 
-st.write("") # Espaciado técnico
+# Contenedor principal con Flexbox
 st.markdown(
     f"""
-    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
-        <img src="data:image/png;base64,{logo_base64}" width="70" style="border-radius: 10px;">
-        <div>
-            <h1 style="color: white; margin: 0; font-size: 24px;">Dirección de Servicios Públicos Domiciliarios</h1>
-            <p style="color: #4cc9f0; margin: 0; font-size: 16px;">Alcaldía de Villavicencio</p>
+    <div style="display: flex; align-items: center; gap: 20px; background-color: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 30px;">
+        <img src="data:image/png;base64,{logo_base64}" width="60" height="60" style="display: block;">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+            <h2 style="color: white; margin: 0; font-size: 22px; font-family: 'Inter', sans-serif; line-height: 1.2;">
+                Dirección de Servicios Públicos Domiciliarios
+            </h2>
+            <p style="color: #4cc9f0; margin: 0; font-size: 15px; font-family: 'Inter', sans-serif; font-weight: 400;">
+                Alcaldía de Villavicencio
+            </p>
         </div>
     </div>
     """,
