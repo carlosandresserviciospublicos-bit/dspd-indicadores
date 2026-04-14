@@ -1,52 +1,39 @@
 import streamlit as st
 import base64
 
-# 1. Configuración de página
+# 1. Configuración de página (Debe ser lo primero)
 st.set_page_config(
-    page_title="DSPD Villavicencio", 
-    layout="wide", 
+    page_title="DSPD Villavicencio",
+    layout="wide",
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# --- HEADER / NAVBAR (Línea 11 en adelante) ---
+# --- HEADER / NAVBAR ---
+# Usamos columnas nativas para evitar errores de CSS
 col1, col2 = st.columns([1, 5])
 
 with col1:
     try:
-        # Intenta cargar el archivo que subiste a GitHub
-        st.image("logo.png", width=90)
+        # Intenta cargar el logo local que subiste
+        st.image("logo.png", width=100)
     except:
-        # Si aún no se ha subido o falla, usa el link directo de Wikimedia
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png", width=90)
+        # Si no lo encuentra, usa el link directo para que no salga error
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png", width=100)
 
 with col2:
+    # Texto alineado correctamente sin indentaciones extrañas
     st.markdown("""
-        <div style="margin-top: -5px;">
-            <h1 style="color: white; margin-bottom: 0; font-size: 26px;">
-                Dirección de Servicios Públicos Domiciliarios
-            </h1>
-            <p style="color: #4cc9f0; font-size: 16px; margin-top: 2px;">
-                Alcaldía de Villavicencio
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+<div style="margin-top: -5px;">
+    <h1 style="color: white; margin-bottom: 0; font-size: 30px; font-family: sans-serif;">
+        Dirección de Servicios Públicos Domiciliarios
+    </h1>
+    <p style="color: #4cc9f0; font-size: 18px; margin-top: 0; font-family: sans-serif;">
+        Alcaldía de Villavicencio
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
-
-    # El texto lo dejamos en HTML para que mantenga el estilo elegante
-    st.markdown("""
-        <div style="line-height: 1.2; margin-top: 10px;">
-            <h2 style="color: white; margin: 0; font-size: 24px; font-family: 'Inter', sans-serif;">
-                Dirección de Servicios Públicos Domiciliarios
-            </h2>
-            <p style="color: #4cc9f0; margin: 0; font-size: 16px; font-family: 'Inter', sans-serif;">
-                Alcaldía de Villavicencio
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("---") # Una línea divisoria para que se vea ordenado
-
 
 # 2. Estilo CSS Profesional
 st.markdown("""
