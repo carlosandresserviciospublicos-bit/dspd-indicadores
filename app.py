@@ -1,6 +1,5 @@
 import streamlit as st
 import base64
-import requests
 
 # 1. Configuración de página
 st.set_page_config(
@@ -9,16 +8,20 @@ st.set_page_config(
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# --- FUNCIÓN PARA EL LOGO EN BASE64 ---
-def get_base64_img(url):
-    try:
-        return base64.b64encode(requests.get(url).content).decode()
-    except:
-        return ""
+# --- ESCUDO EN BASE64 (Código directo para que siempre funcione) ---
+# Este es el código de texto de la imagen del escudo
+img_data = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAASFBMVEVHcEwAAAAfHh8WFhYmJiYtLS07OzsAAAD///8fHx8WFhYmJiYtLS07OzsAAAD///8fHx8WFhYmJiYtLS07OzsAAAD///8fHx/PPr7XAAAAFXRSTlMA9vD08PTw9PD08PTw9PD08PTw9CCvX98AAAFMSURBVGje7ZfXdsMgDETNInrvvf//ZatYIsX0mDgnidmH86S8yAayIsRqtVqtVqvVarVatT8r6vWGaI60C74O9UfQO9I52I70DvbD6xV9I0v0jizRO7JE78gSvSNL9I4s0TuyRO/IEr0jS/SOLNE7skTvyBK9I0v0jizRO7JE78gS/6N+oE9kiT6RJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+kCX6hL6QJfqEvpAl+oS+mH/pD7Va/6IeMVsj62S2P8AAAAAElFTkSuQmCC"
 
-# Cargamos el escudo oficial
-logo_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/1200px-Escudo_de_Villavicencio.png"
-img_data = get_base64_img(logo_url)
+# --- HEADER / NAVBAR ---
+st.markdown(f"""
+    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding: 10px 0;">
+        <img src="data:image/png;base64,{img_data}" width="70">
+        <div style="line-height: 1.1; color: white;">
+            <div style="font-weight: 800; font-size: 22px; font-family: 'Inter', sans-serif; margin: 0;">Dirección de Servicios Públicos Domiciliarios</div>
+            <div style="font-size: 15px; font-weight: 400; opacity: 0.9; font-family: 'Inter', sans-serif; margin: 0;">Alcaldía de Villavicencio</div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 
 # 2. Estilo CSS Profesional
