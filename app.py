@@ -1,221 +1,148 @@
 import streamlit as st
-import base64
 
-# 1. Configuración de página (Debe ser lo primero)
+# 1. CONFIGURACIÓN DE PÁGINA
 st.set_page_config(
     page_title="DSPD Villavicencio",
     layout="wide",
+    initial_sidebar_state="collapsed",
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
 
-# --- HEADER / NAVBAR (Estilo Web Anterior + Logo Local) ---
-# Usamos columnas para asegurar que el logo no se rompa ni se desplace
-col_logo, col_text = st.columns([1, 5])
+# 2. ESTILOS GLOBALES (Réplica del sitio original)
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+    
+    /* Fondo y Fuente General */
+    .main {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    /* Títulos y Subtítulos */
+    h1, h2, h3 { font-family: 'Montserrat', sans-serif !important; }
+    
+    /* Tarjetas de Navegación Estilo Glass */
+    .nav-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+    .nav-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid #00B7FF;
+    }
 
-with col_logo:
+    /* Estilo de Botones */
+    .stButton>button {
+        width: 100%;
+        border-radius: 10px;
+        background-color: transparent;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 10px;
+        font-weight: 600;
+    }
+    .stButton>button:hover {
+        border-color: #00B7FF;
+        color: #00B7FF;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# 3. ENCABEZADO (Identidad Visual)
+col_header1, col_header2 = st.columns([1, 5])
+with col_header1:
     try:
-        # Cargamos el logo desde tu repositorio
-        st.image("logo.png", width=85)
+        st.image("logo.png", width=100)
     except:
-        # Respaldo visual si el archivo no carga (mantiene el círculo del diseño original)
-        st.markdown("""
-            <div style="background: white; border-radius: 50%; width: 75px; height: 75px; 
-            display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 30px;">🏛️</span>
-            </div>
-        """, unsafe_allow_html=True)
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png", width=90)
 
-with col_text:
-    # Aplicamos la tipografía Montserrat y el estilo del código anterior
+with col_header2:
     st.markdown("""
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
-        </style>
-        <div style="margin-top: 5px; font-family: 'Montserrat', sans-serif;">
-            <h1 style="color: white; margin: 0; font-size: 26px; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px;">
+        <div style="margin-top: 10px;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 800; line-height: 1;">
                 Dirección de Servicios Públicos Domiciliarios
             </h1>
-            <p style="color: #00B7FF; margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+            <p style="color: #00B7FF; margin: 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
                 Alcaldía de Villavicencio
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-# Línea divisoria sutil (border-white/20 del estilo original)
-st.markdown("<hr style='margin: 15px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.2);'>", unsafe_allow_html=True)
+st.markdown("<hr style='border-top: 1px solid rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
 
+# 4. NAVEGACIÓN (Menú de Selección)
+menu = ["Inicio", "Empresas", "Orientación", "Documentos", "Noticias", "Contacto"]
+choice = st.radio("", menu, horizontal=True, label_visibility="collapsed")
 
-# 2. Estilo CSS Profesional
-st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+# 5. CONTENIDO POR SECCIONES
+if choice == "Inicio":
+    st.markdown("## Bienvenid@")
+    st.info("Este portal es una herramienta de orientación para los ciudadanos sobre los servicios públicos de Villavicencio.")
     
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-
-    .stApp {
-        background: linear-gradient(135deg, #1e45a5 0%, #2b59c3 100%);
-        color: white;
-    }
-
-    /* Tarjetas de Empresas */
-    .company-card {
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        color: #1e45a5;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    /* Botones Card del Inicio */
-    div.stButton > button {
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        color: white !important;
-        border-radius: 20px !important;
-        height: 150px !important;
-        transition: all 0.4s ease !important;
-        font-weight: 600 !important;
-    }
-    div.stButton > button:hover {
-        background: rgba(255, 255, 255, 0.15) !important;
-        transform: translateY(-8px);
-        border: 1px solid #4cc9f0 !important;
-    }
-
-    /* Ocultar elementos de Streamlit */
-    header, footer {visibility: hidden;}
-    </style>
-    """, unsafe_allow_html=True)
-
-# --- SISTEMA DE NAVEGACIÓN ---
-if 'page' not in st.session_state:
-    st.session_state.page = 'Inicio'
-
-def set_page(name):
-    st.session_state.page = name
-
-# --- HEADER / NAVBAR ---
-# --- HEADER / NAVBAR ---
-st.markdown("""
-    <div style="display: flex; align-items: center; gap: 18px; margin-bottom: 30px; padding: 10px 0;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Escudo_de_Villavicencio.png" width="75" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));">
-        <div style="line-height: 1.1; color: white;">
-            <div style="font-weight: 800; font-size: 24px; font-family: 'Inter', sans-serif;">Dirección de Servicios Públicos Domiciliarios</div>
-            <div style="font-size: 16px; font-weight: 400; opacity: 0.95; font-family: 'Inter', sans-serif;">Alcaldía de Villavicencio</div>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
-
-# Menú de navegación superior
-cols_menu = st.columns(6)
-if cols_menu[0].button("🏠 Inicio", key="nav_ini"): set_page('Inicio')
-if cols_menu[1].button("🏢 Empresas", key="nav_emp"): set_page('Empresas')
-if cols_menu[2].button("📞 Orientación", key="nav_ori"): set_page('Orientacion')
-if cols_menu[3].button("📄 Documentos", key="nav_doc"): set_page('Documentos')
-if cols_menu[4].button("📰 Noticias", key="nav_not"): set_page('Noticias')
-if cols_menu[5].button("✉️ Contacto", key="nav_con"): set_page('Contacto')
-
-st.markdown("---")
-
-# --- LÓGICA DE PÁGINAS ---
-
-if st.session_state.page == 'Inicio':
-    col_left, col_right = st.columns([1.2, 1], gap="large")
-    with col_left:
-        st.markdown("""
-            <h1 style='font-size: 48px; font-weight: 800; line-height: 1.1;'>
-                Somos el <span style='color: #4cc9f0;'>puente</span> entre la ciudadanía y los prestadores
-            </h1>
-            <p style='font-size: 18px; opacity: 0.9; margin: 25px 0;'>
-                Te orientamos sobre derechos y deberes, rutas de atención y trámites ante las empresas de acueducto, energía, gas y aseo.
-            </p>
-        """, unsafe_allow_html=True)
-        c1, c2 = st.columns(2)
-        if c1.button("Ver empresas prestadoras", key="btn_emp_home"): set_page('Empresas')
-        if c2.button("Solicitar orientación", key="btn_ori_home"): set_page('Orientacion')
-
-    with col_right:
-        g1, g2 = st.columns(2)
-        with g1:
-            st.button("⚖️\n\nDerechos", key="card_der")
-            st.button("🏢\n\nEmpresas", key="card_emp", on_click=lambda: set_page('Empresas'))
-        with g2:
-            st.button("🗺️\n\nRutas de atención", key="card_rut")
-            st.button("ℹ️\n\nOrientación DSP", key="card_ori", on_click=lambda: set_page('Orientacion'))
-
-elif st.session_state.page == 'Empresas':
-    st.markdown("## 🏢 Empresas Prestadoras")
-    st.write("Consulta el sitio oficial según el servicio que necesites.")
-    
-    empresas = [
-        {"n": "EAAV", "d": "Acueducto y Alcantarillado", "l": "https://www.eaav.gov.co"},
-        {"n": "EMSA", "d": "Electrificadora del Meta", "l": "https://www.emsa-esp.com.co"},
-        {"n": "Llanogas S.A.", "d": "Gas Domiciliario", "l": "https://llanogas.com"},
-        {"n": "Bioagrícola", "d": "Servicio de Aseo", "l": "https://www.bioagricoladellano.com.co"}
-    ]
-    
-    for emp in empresas:
-        st.markdown(f"""
-            <div class="company-card">
-                <div>
-                    <strong style="font-size: 18px;">{emp['n']}</strong><br>
-                    <span style="color: #666;">{emp['d']}</span>
-                </div>
-                <a href="{emp['l']}" target="_blank" style="text-decoration:none;">
-                    <button style="padding: 10px 20px; border-radius: 10px; border: 1px solid #1e45a5; background: white; color: #1e45a5; cursor: pointer; font-weight: bold;">Ir al sitio</button>
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-elif st.session_state.page == 'Orientacion':
-    st.markdown("## 📞 Formulario de Orientación Ciudadana")
-    with st.form("form_orientacion"):
-        c1, c2 = st.columns(2)
-        nombre = c1.text_input("Nombre completo *")
-        email = c2.text_input("Correo electrónico *")
-        
-        t1, t2 = st.columns(2)
-        tema = t1.selectbox("Tema de orientación *", ["Facturación", "Calidad del servicio", "Peticiones/Quejas", "Otros"])
-        servicio = t2.selectbox("Servicio *", ["Acueducto", "Energía", "Gas", "Aseo"])
-        
-        asunto = st.text_input("Asunto *")
-        desc = st.text_area("Descripción detallada del caso")
-        
-        acepta = st.checkbox("Declaro que comprendo que este canal es de orientación.")
-        
-        submit = st.form_submit_button("Enviar solicitud")
-        if submit:
-            if not nombre or not email:
-                st.error("Por favor completa los campos obligatorios.")
-            else:
-                st.success("Solicitud recibida. Nos contactaremos contigo pronto.")
-
-elif st.session_state.page == 'Noticias':
-    st.markdown("## 📰 Noticias y comunicados")
+    # Grid de accesos rápidos
     c1, c2, c3 = st.columns(3)
     with c1:
-        st.info("**Jornada de orientación**\n\nAtención en el barrio San Benito este viernes.")
+        st.markdown('<div class="nav-card"><h3>🏢 Empresas</h3><p>Conoce los prestadores</p></div>', unsafe_allow_html=True)
     with c2:
-        st.warning("**Interrupción de servicio**\n\nMantenimiento preventivo en la red eléctrica.")
+        st.markdown('<div class="nav-card"><h3>📂 Trámites</h3><p>Guía de orientación</p></div>', unsafe_allow_html=True)
     with c3:
-        st.success("**Nueva Normativa**\n\nConsulta los cambios en la ley de servicios públicos.")
+        st.markdown('<div class="nav-card"><h3>📰 Noticias</h3><p>Últimos boletines</p></div>', unsafe_allow_html=True)
 
-elif st.session_state.page == 'Contacto':
-    st.markdown("## ✉️ Contacto")
-    st.markdown("""
-        **Dirección:** Alcaldía de Villavicencio - Piso 4<br>
-        **Horario:** Lunes a Viernes, 8:00 a.m. - 5:00 p.m.<br>
-        **Correo institucional:** serviciospublicos@villavicencio.gov.co
-    """, unsafe_allow_html=True)
+elif choice == "Empresas":
+    st.markdown("## Empresas Prestadoras")
+    empresas = [
+        {"nombre": "EAAV", "desc": "Agua y Alcantarillado", "web": "https://www.eaav.gov.co/"},
+        {"nombre": "EMSA", "desc": "Energía Eléctrica", "web": "https://www.electrificadoradelmeta.com.co/"},
+        {"nombre": "Llanogas", "desc": "Gas Domiciliario", "web": "https://www.llanogas.com/"},
+        {"nombre": "Bioagrícola", "desc": "Aseo y Limpieza", "web": "https://www.bioagricoladelllano.com.co/"}
+    ]
+    for emp in empresas:
+        with st.expander(f"📌 {emp['nombre']} - {emp['desc']}"):
+            st.write(f"Para trámites de facturación y servicios de {emp['desc'].lower()}.")
+            st.link_button("Ir al sitio oficial", emp['web'])
 
-# --- PIE DE PÁGINA ---
-st.markdown(f"""
-    <div style="margin-top: 50px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; opacity: 0.6;">
-        © 2026 Alcaldía de Villavicencio — Dirección de Servicios Públicos Domiciliarios<br>
-        Sección actual: {st.session_state.page}
+elif choice == "Orientación":
+    st.markdown("## Formulario de Orientación")
+    st.write("Si requieres guía sobre un trámite, completa los datos:")
+    with st.form("orientacion_form"):
+        col1, col2 = st.columns(2)
+        nombre = col1.text_input("Nombre completo *")
+        correo = col2.text_input("Correo electrónico *")
+        tema = st.selectbox("Tema de orientación", ["Facturación", "Subsidios", "Consumos", "PQR", "Otro"])
+        mensaje = st.text_area("Descripción de su solicitud")
+        enviado = st.form_submit_button("Enviar Solicitud")
+        if enviado:
+            st.success("Solicitud enviada. Nos comunicaremos pronto.")
+
+elif choice == "Documentos":
+    st.markdown("## Documentos y Normatividad")
+    st.download_button("Descargar Formato PQR", "Contenido ejemplo", file_name="pqr_modelo.pdf")
+    st.markdown("- Resolución de Tarifas 2024")
+    st.markdown("- Manual del Usuario")
+
+elif choice == "Noticias":
+    st.markdown("## Noticias y Comunicados")
+    st.warning("⚠️ Mantenimiento programado: Sector Centro - 15 de Abril")
+    st.write("La EAAV informa suspensión temporal por arreglo de tubería.")
+
+elif choice == "Contacto":
+    st.markdown("## Contacto")
+    st.write("📍 **Ubicación:** Alcaldía de Villavicencio")
+    st.write("⏰ **Horario:** Lunes a Viernes, 8:00 a.m. – 5:00 p.m.")
+    st.write("📧 **Email:** serviciospublicos@villavicencio.gov.co")
+
+# 6. PIE DE PÁGINA
+st.markdown("""
+    <div style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: #94a3b8;">
+        © 2026 Alcaldía de Villavicencio — Dirección de Servicios Públicos Domiciliarios.
     </div>
 """, unsafe_allow_html=True)
