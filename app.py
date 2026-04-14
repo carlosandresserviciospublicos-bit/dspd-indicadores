@@ -1,4 +1,6 @@
 import streamlit as st
+import base64
+import requests
 
 # 1. Configuración de página
 st.set_page_config(
@@ -6,6 +8,18 @@ st.set_page_config(
     layout="wide", 
     page_icon="https://www.villavicencio.gov.co/favicon.ico"
 )
+
+# --- FUNCIÓN PARA EL LOGO EN BASE64 ---
+def get_base64_img(url):
+    try:
+        return base64.b64encode(requests.get(url).content).decode()
+    except:
+        return ""
+
+# Cargamos el escudo oficial
+logo_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/1200px-Escudo_de_Villavicencio.png"
+img_data = get_base64_img(logo_url)
+
 
 # 2. Estilo CSS Profesional
 st.markdown("""
