@@ -1,105 +1,118 @@
 import streamlit as st
+import base64
+import requests
+from io import BytesIO
 
-# 1. CONFIGURACIÓN DE PÁGINA
-st.set_page_config(
-    page_title="DSPD Villavicencio",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-)
+# 1. CONFIGURACIÓN
+st.set_page_config(page_title="DSPD Villavicencio", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. CSS DE PRECISIÓN PARA LOGO Y ENCABEZADO
-st.markdown("""
+# 2. FUNCIÓN PARA CARGAR LOGO (Solución definitiva)
+def get_base64_logo():
+    url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png"
+    try:
+        response = requests.get(url)
+        return base64.b64encode(response.content).decode()
+    except:
+        return ""
+
+logo_base64 = get_base64_logo()
+
+# 3. CSS DE PRECISIÓN
+st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
     
-    :root {
+    :root {{
         --brand: #2B5AC4;
         --accent: #00B7FF;
         --aguamarina: #7FFFD4;
-    }
+    }}
 
-    .stApp {
+    .stApp {{
         background-color: var(--brand) !important;
         color: white !important;
         font-family: 'Montserrat', sans-serif !important;
-    }
+    }}
 
-    /* Ocultar header nativo de Streamlit que genera el hueco */
-    header[data-testid="stHeader"] {
-        display: none !important;
-    }
+    /* Ocultar barra superior nativa */
+    header[data-testid="stHeader"] {{ display: none !important; }}
 
-    /* ENCABEZADO FIJO (Logo + Título) */
-    .fixed-header {
+    /* ENCABEZADO FIJO */
+    .fixed-header {{
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 110px; /* Altura suficiente para el logo y texto */
+        top: 0; left: 0; width: 100%;
+        height: 100px;
         background-color: var(--brand);
         display: flex;
         align-items: center;
         padding: 0 5%;
         z-index: 10000;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
+    }}
 
-    .header-content {
+    .header-content {{
         display: flex;
         align-items: center;
-        gap: 20px;
-    }
+        gap: 15px;
+    }}
 
-    .logo-img {
-        height: 75px !important; /* Tamaño grande y claro */
-        width: auto;
-    }
+    /* Imagen forzada en Base64 */
+    .logo-container {{
+        width: 65px;
+        height: 65px;
+        background-image: url('data:image/png;base64,{logo_base64}');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }}
 
-    .header-text h1 {
+    .header-text h1 {{
         margin: 0 !important;
-        font-size: 22px !important;
+        font-size: 20px !important;
         font-weight: 800 !important;
-        color: white !important;
-        line-height: 1.1 !important;
-    }
+        line-height: 1.1;
+    }}
 
-    .header-text p {
-        margin: 5px 0 0 0 !important; /* Espacio para que no esté al borde */
+    .header-text p {{
+        margin: 5px 0 0 0 !important;
         color: var(--accent) !important;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 13px;
         text-transform: uppercase;
-        letter-spacing: 1px;
-    }
+    }}
 
-    /* AJUSTE DE ESPACIO PARA QUE EL TEXTO NO SE META DEBAJO DEL HEADER */
-    .main-container {
-        margin-top: 130px; /* Este margen elimina el espacio excesivo pero evita el solapamiento */
-        padding: 0 5%;
-    }
+    /* CONTENIDO (Ajuste de hueco) */
+    .main-container {{
+        margin-top: 80px; /* Reducido para que no haya hueco grande */
+        padding: 20px 5%;
+    }}
 
-    .hero-title {
+    .hero-title {{
         font-size: clamp(30px, 5vw, 55px);
         font-weight: 800;
         line-height: 1.1;
-        margin-bottom: 25px;
-    }
+        margin-bottom: 15px;
+    }}
 
-    .highlight {
-        color: var(--aguamarina);
-    }
+    .highlight {{ color: var(--aguamarina); }}
+
+    /* BOTONES */
+    .stButton>button {{
+        background-color: white !important;
+        color: var(--brand) !important;
+        font-weight: 700;
+        border-radius: 8px;
+        border: none;
+        padding: 10px 20px;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
-# 3. RENDER DEL ENCABEZADO FIJO
-# URL del logo (asegúrate de que esta URL sea accesible)
-logo_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png"
-
+# 4. RENDER HEADER
 st.markdown(f"""
     <div class="fixed-header">
         <div class="header-content">
-            <img src="{logo_url}" class="logo-img">
+            <div class="logo-container"></div>
             <div class="header-text">
                 <h1>Dirección de Servicios Públicos Domiciliarios</h1>
                 <p>Alcaldía de Villavicencio</p>
@@ -108,19 +121,18 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. CONTENIDO PRINCIPAL
+# 5. RENDER CONTENIDO
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
-# Título Hero
 st.markdown(f"""
     <h1 class="hero-title">
         Somos el <span class="highlight">puente</span> entre la ciudadanía y los prestadores de servicios públicos domiciliarios
     </h1>
+    <p style="font-size: 18px; margin-bottom: 25px;">
+        Te orientamos sobre tus derechos y deberes, rutas de atención y trámites ante las empresas de acueducto, energía, gas y aseo.
+    </p>
 """, unsafe_allow_html=True)
 
-st.write("Te orientamos sobre tus derechos y deberes, rutas de atención y trámites ante las empresas de acueducto, energía, gas y aseo.")
-
-# Botones de acción
 col1, col2 = st.columns([1, 4])
 with col1:
     st.button("Ver empresas prestadoras")
