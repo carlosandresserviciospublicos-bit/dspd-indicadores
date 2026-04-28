@@ -2,12 +2,12 @@ import streamlit as st
 
 # 1. CONFIGURACIÓN DE PÁGINA
 st.set_page_config(
-    page_title="Dirección de Servicios Públicos Domiciliarios – Villavicencio",
+    page_title="DSPD Villavicencio",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
-# 2. ESTILOS CSS - RÉPLICA EXACTA
+# 2. ESTILOS CSS (Logo lateral + Menú elevado + Header Fijo)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
@@ -23,12 +23,12 @@ st.markdown("""
         font-family: 'Montserrat', sans-serif !important;
     }
 
-    /* OCULTAR ELEMENTOS POR DEFECTO */
+    /* Ocultar barra superior de Streamlit */
     header[data-testid="stHeader"], [data-testid="stToolbar"] {
         display: none !important;
     }
 
-    /* --- ENCABEZADO FIJO --- */
+    /* --- ENCABEZADO FIJO COMPACTO --- */
     .fixed-header {
         position: fixed;
         top: 0;
@@ -37,56 +37,62 @@ st.markdown("""
         z-index: 1000;
         background-color: var(--brand);
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 15px 5%;
+        padding: 12px 5%;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    .header-content {
+    .header-layout {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .header-logo {
+        height: 50px;
     }
 
     .header-text h1 {
-        margin: 0;
-        font-size: 24px !important;
+        margin: 0 !important;
+        font-size: 20px !important;
         font-weight: 800 !important;
-        line-height: 1.1;
+        line-height: 1 !important;
+        color: white !important;
     }
 
     .header-text p {
-        margin: 0;
+        margin: 0 !important;
         color: var(--accent) !important;
         font-weight: 700;
-        font-size: 15px;
+        font-size: 12px;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
+        letter-spacing: 1px;
     }
 
-    /* MARGEN PARA EL CONTENIDO */
+    /* --- AJUSTE DE POSICIÓN DEL MENÚ --- */
     .main-container {
-        margin-top: 140px;
+        margin-top: 155px; /* Ajuste para que el texto inicie justo debajo del header */
     }
 
-    /* --- ESTILO DE MENÚ (TABS) --- */
+    /* Estilo de Pestañas (Tabs) */
     div[data-baseweb="tab-list"] {
-        gap: 12px !important;
+        gap: 10px !important;
         background-color: transparent !important;
-        margin-bottom: 30px !important;
     }
 
-    /* Pestañas NO seleccionadas (Borde blanco) */
+    /* Pestañas Inactivas */
     div[data-baseweb="tab"] {
-        border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
         background-color: transparent !important;
-        border-radius: 8px !important;
-        padding: 10px 20px !important;
+        border-radius: 6px !important;
+        padding: 6px 14px !important;
         color: white !important;
+        font-size: 13px !important;
         font-weight: 600 !important;
         transition: all 0.3s ease !important;
     }
 
-    /* Pestaña SELECCIONADA (Fondo blanco, texto azul) */
+    /* Pestaña Activa */
     div[aria-selected="true"] {
         background-color: white !important;
         color: var(--brand) !important;
@@ -95,24 +101,22 @@ st.markdown("""
 
     div[data-baseweb="tab-highlight"] { display: none !important; }
 
-    /* TARJETAS */
+    /* Tarjetas de contenido */
     .glass-card {
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         padding: 25px;
         margin-bottom: 20px;
     }
-
-    h2, h3 { color: white !important; font-weight: 800 !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. RENDERIZADO DEL ENCABEZADO FIJO
+# 3. RENDER DEL ENCABEZADO (Logo al lado del Título)
 st.markdown("""
     <div class="fixed-header">
-        <div class="header-content">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png" width="85">
+        <div class="header-layout">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png" class="header-logo">
             <div class="header-text">
                 <h1>Dirección de Servicios Públicos Domiciliarios</h1>
                 <p>Alcaldía de Villavicencio</p>
@@ -121,79 +125,66 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. CONTENIDO PRINCIPAL
+# 4. CONTENIDO CON MENÚ ELEVADO
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
-# MENÚ DE NAVEGACIÓN EXACTO
-menu_options = [
+menu = [
     "Inicio", 
     "¿Qué hacemos?", 
     "Empresas prestadoras", 
     "Orientación ciudadana", 
     "Documentos", 
-    "Noticias y comunicados", 
+    "Noticias", 
     "Contacto"
 ]
-tabs = st.tabs(menu_options)
+tabs = st.tabs(menu)
 
 with tabs[0]: # Inicio
     st.markdown("""
-        <div style="padding: 20px 0;">
-            <h2 style="font-size: 45px; line-height: 1.1; margin-bottom: 20px;">
-                Somos el puente entre la ciudadanía y los prestadores de servicios públicos domiciliarios
-            </h2>
-            <p style="font-size: 19px; color: rgba(255,255,255,0.9); max-width: 900px; line-height: 1.5;">
-                Te orientamos sobre tus derechos y deberes, rutas de atención y somos el apoyo institucional para mejorar la calidad de los servicios en Villavicencio.
-            </p>
-        </div>
+        <h2 style="font-size: 40px; line-height: 1.1; margin-bottom: 20px; font-weight: 800;">
+            Somos el puente entre la ciudadanía y los prestadores
+        </h2>
+        <p style="font-size: 18px; color: rgba(255,255,255,0.9); max-width: 850px; line-height: 1.5;">
+            Te orientamos sobre tus derechos y deberes, rutas de atención y somos el apoyo institucional para mejorar la calidad de los servicios en Villavicencio.
+        </p>
     """, unsafe_allow_html=True)
 
 with tabs[1]: # ¿Qué hacemos?
-    st.markdown("## ¿Qué hacemos?")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown('<div class="glass-card"><h3>Orientación</h3><p>Ayudamos al ciudadano a entender su factura y derechos.</p></div>', unsafe_allow_html=True)
-    with col2:
-        st.markdown('<div class="glass-card"><h3>Seguimiento</h3><p>Vigilamos que las empresas cumplan con los indicadores de calidad.</p></div>', unsafe_allow_html=True)
+    st.markdown("### Nuestra Labor")
+    st.markdown('<div class="glass-card">Orientamos al ciudadano y vigilamos la calidad de los servicios de agua, energía, gas y aseo.</div>', unsafe_allow_html=True)
 
-with tabs[2]: # Empresas prestadoras
-    st.markdown("## Empresas prestadoras")
-    st.write("Canales oficiales de atención:")
-    empresas = ["EAAV (Agua)", "EMSA (Energía)", "Llanogas (Gas)", "Bioagrícola (Aseo)"]
-    for emp in empresas:
-        st.markdown(f'<div class="glass-card"><h3>{emp}</h3><p>Acceso a trámites y reportes.</p></div>', unsafe_allow_html=True)
+with tabs[2]: # Empresas
+    st.markdown("### Empresas Prestadoras")
+    col1, col2, col3, col4 = st.columns(4)
+    col1.button("EAAV")
+    col2.button("EMSA")
+    col3.button("Llanogas")
+    col4.button("Bioagrícola")
 
-with tabs[3]: # Orientación ciudadana
-    st.markdown("## Orientación ciudadana")
-    with st.form("orientacion_form"):
+with tabs[3]: # Orientación
+    st.markdown("### Orientación Ciudadana")
+    with st.form("pqr_form"):
         st.text_input("Nombre completo")
-        st.selectbox("Servicio", ["Acueducto", "Energía", "Gas", "Aseo"])
-        st.text_area("Descripción de su consulta")
-        st.form_submit_button("Enviar Solicitud")
+        st.text_area("Consulta o requerimiento")
+        st.form_submit_button("Enviar consulta")
 
 with tabs[4]: # Documentos
-    st.markdown("## Documentos")
-    st.markdown('<div class="glass-card"><h3>📄 Formato PQR</h3><p>Descargue el modelo para sus reclamaciones.</p></div>', unsafe_allow_html=True)
+    st.markdown("### Documentos oficiales")
+    st.markdown('<div class="glass-card">📂 Guía de usuario - PQR</div>', unsafe_allow_html=True)
 
-with tabs[5]: # Noticias y comunicados
-    st.markdown("## Noticias y comunicados")
-    st.markdown("""
-        <div class="glass-card">
-            <span style="color:#00B7FF; font-weight:700;">AVISO</span>
-            <h3>Jornadas de atención</h3>
-            <p>Próximas visitas a las comunas para revisión de facturación.</p>
-        </div>
-    """, unsafe_allow_html=True)
+with tabs[5]: # Noticias
+    st.markdown("### Noticias y Comunicados")
+    st.markdown('<div class="glass-card">🔔 Próximas jornadas de atención presencial en barrios.</div>', unsafe_allow_html=True)
 
 with tabs[6]: # Contacto
-    st.markdown("## Contacto")
-    st.info("📍 Calle 40 No. 33-64 Centro | Villavicencio, Meta")
+    st.markdown("### Información de Contacto")
+    st.write("📍 Calle 40 No. 33-64 Centro | Villavicencio, Meta")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# 5. FOOTER
+# 5. PIE DE PÁGINA
 st.markdown("""
-    <div style="text-align: center; margin-top: 60px; padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5);">
-        © 2026 Alcaldía de Villavicencio — Dirección de Servicios Públicos Domiciliarios.
+    <div style="text-align: center; margin-top: 50px; padding: 20px; opacity: 0.5; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+        Villavicencio, Meta — 2026 | Dirección de Servicios Públicos Domiciliarios
     </div>
 """, unsafe_allow_html=True)
