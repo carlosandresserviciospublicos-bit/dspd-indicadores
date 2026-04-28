@@ -7,7 +7,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# 2. ESTILOS CSS (RÉPLICA TOTAL + SOLUCIÓN LOGO + RESPONSIVE)
+# 2. CSS DE ALTO NIVEL (Solución de Logo, Menú Inteligente y Navegación Vertical)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
@@ -17,7 +17,7 @@ st.markdown("""
         --accent: #00B7FF;
     }
 
-    /* Fondo Global y Fuente */
+    /* Fondo y Fuente */
     .stApp {
         background-color: var(--brand) !important;
         color: white !important;
@@ -30,7 +30,7 @@ st.markdown("""
         backdrop-filter: blur(10px);
     }
 
-    /* ENCABEZADO FIJO COMPACTO */
+    /* ENCABEZADO FIJO (Logo + Título en una línea) */
     .fixed-header {
         position: fixed;
         top: 0;
@@ -42,161 +42,177 @@ st.markdown("""
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         display: flex;
         align-items: center;
+        height: 85px;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
         gap: 15px;
-        height: 80px;
     }
 
     .logo-img {
-        height: 60px;
+        height: 55px;
         width: auto;
-        object-fit: contain;
+        filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
     }
 
     .header-text h1 {
         margin: 0 !important;
-        font-size: 18px !important;
+        font-size: clamp(16px, 4vw, 22px) !important;
         font-weight: 800 !important;
         color: white !important;
+        line-height: 1.1 !important;
     }
 
     .header-text p {
         margin: 0 !important;
         color: var(--accent) !important;
         font-weight: 700;
-        font-size: 11px;
+        font-size: clamp(10px, 2vw, 13px);
         text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    /* CONTENEDOR PRINCIPAL (Navegación hacia abajo) */
-    .main-scroll-container {
-        margin-top: 100px;
+    /* CONTENEDOR DE NAVEGACIÓN VERTICAL */
+    .main-scroll {
+        margin-top: 110px;
         padding: 0 5%;
     }
 
-    .section {
-        padding: 60px 0;
+    .section-box {
+        padding: 50px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .hero-text {
-        font-size: clamp(30px, 5vw, 50px);
+    /* TEXTO HERO (EL PUENTE) */
+    .hero-title {
+        font-size: clamp(28px, 6vw, 52px);
         font-weight: 800;
         line-height: 1.1;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
 
-    /* TARJETAS ESTILO NETLIFY */
-    .card {
-        background: rgba(255, 255, 255, 0.05);
+    /* TARJETAS ESTILO APP */
+    .info-card {
+        background: rgba(255, 255, 255, 0.06);
         border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 15px;
-        padding: 30px;
-        height: 100%;
-        transition: transform 0.3s ease;
+        border-radius: 12px;
+        padding: 25px;
+        transition: 0.3s ease;
     }
-    .card:hover {
-        transform: translateY(-5px);
+    .info-card:hover {
+        background: rgba(255, 255, 255, 0.1);
         border-color: var(--accent);
     }
 
-    /* OCULTAR MENÚ EN MÓVIL (Sidebar de Streamlit se encarga) */
-    @media (max-width: 768px) {
-        .nav-desktop { display: none; }
+    /* Estilo del Sidebar (Menú móvil/escritorio) */
+    [data-testid="stSidebar"] {
+        background-color: #1e3d85 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-link {
+        color: white !important;
+        text-decoration: none !important;
+        font-weight: 600;
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Botones de Formulario */
+    /* Ajuste de botones de formulario */
     .stButton>button {
+        width: 100%;
         background-color: var(--accent) !important;
         color: var(--brand) !important;
         font-weight: 700 !important;
-        border-radius: 8px !important;
         border: none !important;
-        width: 100%;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. COMPONENTE ENCABEZADO FIJO (Solución de Logo)
-# Usamos una URL de respaldo del escudo oficial para asegurar que siempre se vea
+# 3. ENCABEZADO FIJO DEFINITIVO
 logo_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png"
 
 st.markdown(f"""
     <div class="fixed-header">
-        <img src="{logo_url}" class="logo-img">
-        <div class="header-text">
-            <h1>Dirección de Servicios Públicos</h1>
-            <p>Alcaldía de Villavicencio</p>
+        <div class="header-content">
+            <img src="{logo_url}" class="logo-img">
+            <div class="header-text">
+                <h1>Dirección de Servicios Públicos Domiciliarios</h1>
+                <p>Alcaldía de Villavicencio</p>
+            </div>
         </div>
     </div>
 """, unsafe_allow_html=True)
 
-# 4. MENÚ LATERAL (Para Navegador y App Celular)
-# En celular se oculta y aparece al desplazar el borde izquierdo o tocar la flecha
+# 4. MENÚ LATERAL (Se oculta en móvil automáticamente)
 with st.sidebar:
     st.markdown("### Navegación")
     st.markdown("---")
-    st.markdown("[🏠 Inicio](#inicio)")
-    st.markdown("[🏢 Empresas Prestadoras](#empresas)")
-    st.markdown("[🙋 Solicitar Orientación](#orientacion)")
-    st.markdown("[🔍 ¿Qué hacemos?](#que-hacemos)")
-    st.markdown("[📰 Noticias](#noticias)")
-    st.markdown("[📞 Contacto](#contacto)")
+    st.markdown('<a href="#inicio" class="sidebar-link">🏠 Inicio</a>', unsafe_allow_html=True)
+    st.markdown('<a href="#empresas" class="sidebar-link">🏢 Empresas Prestadoras</a>', unsafe_allow_html=True)
+    st.markdown('<a href="#orientacion" class="sidebar-link">🙋 Solicitar Orientación</a>', unsafe_allow_html=True)
+    st.markdown('<a href="#que-hacemos" class="sidebar-link">🔍 ¿Qué hacemos?</a>', unsafe_allow_html=True)
+    st.markdown('<a href="#contacto" class="sidebar-link">📞 Contacto</a>', unsafe_allow_html=True)
 
-# 5. CONTENIDO VERTICAL (Navegación toda hacia abajo)
-st.markdown('<div class="main-scroll-container">', unsafe_allow_html=True)
+# 5. CONTENIDO DE NAVEGACIÓN HACIA ABAJO
+st.markdown('<div class="main-scroll">', unsafe_allow_html=True)
 
-# SECCIÓN 1: INICIO / HERO
-st.markdown('<div id="inicio" class="section">', unsafe_allow_html=True)
-st.markdown('<h1 class="hero-text">Somos el puente entre la ciudadanía y los prestadores de servicios públicos domiciliarios</h1>', unsafe_allow_html=True)
-st.markdown('<p style="font-size: 20px; opacity: 0.9; max-width: 800px;">Te orientamos sobre tus derechos y deberes, rutas de atención y somos el apoyo institucional para mejorar la calidad de vida en Villavicencio.</p>', unsafe_allow_html=True)
+# --- INICIO / HERO ---
+st.markdown('<div id="inicio" class="section-box">', unsafe_allow_html=True)
+st.markdown('<h1 class="hero-title">Somos el puente entre la ciudadanía y los prestadores de servicios públicos domiciliarios</h1>', unsafe_allow_html=True)
+st.markdown('<p style="font-size: 20px; opacity: 0.9; max-width: 850px;">Garantizamos la transparencia y calidad en los servicios de agua, energía, gas y aseo para todos los villavicenses.</p>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# SECCIÓN 2: EMPRESAS PRESTADORAS
-st.markdown('<div id="empresas" class="section">', unsafe_allow_html=True)
-st.title("Empresas Prestadoras")
+# --- EMPRESAS PRESTADORAS ---
+st.markdown('<div id="empresas" class="section-box">', unsafe_allow_html=True)
+st.subheader("Empresas Prestadoras")
 c1, c2, c3, c4 = st.columns(4)
-with c1: st.markdown('<div class="card"><h3>EAAV</h3><p>Acueducto y Alcantarillado</p></div>', unsafe_allow_html=True)
-with c2: st.markdown('<div class="card"><h3>EMSA</h3><p>Energía Eléctrica</p></div>', unsafe_allow_html=True)
-with c3: st.markdown('<div class="card"><h3>Llanogas</h3><p>Gas Domiciliario</p></div>', unsafe_allow_html=True)
-with c4: st.markdown('<div class="card"><h3>Bioagrícola</h3><p>Aseo y Limpieza</p></div>', unsafe_allow_html=True)
+with c1: st.markdown('<div class="info-card"><b>EAAV</b><br>Acueducto</div>', unsafe_allow_html=True)
+with c2: st.markdown('<div class="info-card"><b>EMSA</b><br>Energía</div>', unsafe_allow_html=True)
+with c3: st.markdown('<div class="info-card"><b>Llanogas</b><br>Gas</div>', unsafe_allow_html=True)
+with c4: st.markdown('<div class="info-card"><b>Bioagrícola</b><br>Aseo</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# SECCIÓN 3: ORIENTACIÓN CIUDADANA (Formulario)
-st.markdown('<div id="orientacion" class="section">', unsafe_allow_html=True)
-st.title("Solicitar Orientación")
-with st.form("pqr_vertical"):
-    st.text_input("Nombre Completo")
-    st.selectbox("Servicio", ["Agua", "Luz", "Gas", "Aseo"])
-    st.text_area("Describa su inquietud o reclamo")
-    st.form_submit_button("Enviar Solicitud")
+# --- ORIENTACIÓN CIUDADANA ---
+st.markdown('<div id="orientacion" class="section-box">', unsafe_allow_html=True)
+st.subheader("Canal de Orientación Ciudadana")
+with st.form("pqr_form"):
+    st.text_input("Nombre y Apellidos")
+    st.selectbox("Empresa sobre la que consulta", ["EAAV", "EMSA", "Llanogas", "Bioagrícola", "Otra"])
+    st.text_area("Detalle de su solicitud")
+    st.form_submit_button("Enviar Orientación")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# SECCIÓN 4: ¿QUÉ HACEMOS?
-st.markdown('<div id="que-hacemos" class="section">', unsafe_allow_html=True)
-st.title("¿Qué hacemos?")
+# --- ¿QUÉ HACEMOS? ---
+st.markdown('<div id="que-hacemos" class="section-box">', unsafe_allow_html=True)
+st.subheader("¿Qué hacemos?")
 st.markdown("""
-    <div class="card">
-        <p style="font-size: 18px;">Trabajamos para garantizar que las empresas prestadoras cumplan con los estándares de calidad. 
-        Servimos como apoyo técnico a la Alcaldía y como guía jurídica para el ciudadano.</p>
+    <div class="info-card">
+        <p>Servimos como organismo técnico y de control para asegurar que los prestadores cumplan sus compromisos. 
+        Orientamos al usuario en la radicación de PQRS y realizamos seguimiento a la infraestructura de servicios públicos.</p>
     </div>
 """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# SECCIÓN 5: CONTACTO
-st.markdown('<div id="contacto" class="section">', unsafe_allow_html=True)
-st.title("Contacto")
-col_cont1, col_cont2 = st.columns(2)
-with col_cont1:
-    st.write("📍 Calle 40 No. 33-64 Centro, Edificio Alcaldía")
-with col_cont2:
+# --- CONTACTO ---
+st.markdown('<div id="contacto" class="section-box">', unsafe_allow_html=True)
+st.subheader("Información de Contacto")
+col_f1, col_f2 = st.columns(2)
+with col_f1:
+    st.write("📍 Calle 40 No. 33-64 Centro")
+    st.write("🏢 Edificio Alcaldía de Villavicencio")
+with col_f2:
     st.write("📧 serviciospublicos@villavicencio.gov.co")
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True) # Cierre contenedor
+st.markdown('</div>', unsafe_allow_html=True) # Cierre main-scroll
 
 # 6. FOOTER
 st.markdown("""
-    <div style="text-align: center; padding: 40px; opacity: 0.5; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1);">
-        © 2026 Alcaldía de Villavicencio — Dirección de Servicios Públicos Domiciliarios
+    <div style="text-align: center; padding: 40px; opacity: 0.5; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+        Villavicencio, Meta — 2026 | Dirección de Servicios Públicos
     </div>
 """, unsafe_allow_html=True)
