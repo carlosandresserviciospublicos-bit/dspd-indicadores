@@ -1,106 +1,47 @@
 import streamlit as st
+import os
 
-# 1. CONFIGURACIÓN DE PÁGINA
-st.set_page_config(
-    page_title="DSPD Villavicencio",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-)
+# 1. CONFIGURACIÓN (Oculta el menú de Streamlit para ganar espacio)
+st.set_page_config(page_title="DSPD Villavicencio", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. CSS FINAL (Sin errores de posicionamiento)
+# 2. ESTILOS CSS (Réplica exacta de Netlify)
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
     
-    .stApp {
-        background-color: #2B5AC4 !important;
-        color: white !important;
-        font-family: 'Montserrat', sans-serif !important;
-    }
-
-    /* Ocultar barra superior nativa */
-    header {display: none !important;}
+    .stApp { background-color: #2B5AC4 !important; color: white !important; font-family: 'Montserrat', sans-serif !important; }
+    header {display: none !important;} /* Elimina el header gris de Streamlit */
     
-    /* Contenedor del Encabezado */
-    .header-container {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
-        margin-bottom: 20px;
-    }
+    /* Contenedor del encabezado */
+    .header-box { display: flex; align-items: center; gap: 20px; margin-bottom: 10px; }
+    .inst-title { font-weight: 800; font-size: 24px; margin: 0; line-height: 1.1; }
+    .inst-sub { color: #00B7FF; font-weight: 700; font-size: 15px; text-transform: uppercase; margin-top: 5px; }
 
-    .header-text {
-        margin-left: 20px;
-    }
-
-    .inst-title {
-        font-weight: 800;
-        font-size: 22px;
-        line-height: 1.1;
-        margin: 0;
-    }
-
-    .inst-sub {
-        color: #00B7FF;
-        font-weight: 700;
-        font-size: 14px;
-        text-transform: uppercase;
-        margin-top: 4px;
-    }
-
-    /* Hero */
-    .hero-title {
-        font-size: clamp(30px, 5vw, 52px);
-        font-weight: 800;
-        line-height: 1.1;
-        margin-top: 10px;
-    }
+    /* Hero y Título */
+    .hero-title { font-size: clamp(32px, 5vw, 55px); font-weight: 800; margin-top: 10px !important; line-height: 1.1; }
     .aguamarina { color: #7FFFD4; }
 
-    /* Botones blancos */
-    div.stButton > button {
-        background-color: white !important;
-        color: #2B5AC4 !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        border: none !important;
-        width: 100%;
-        height: 50px;
-    }
+    /* Ajuste del bloque de contenido principal para quitar el hueco */
+    .block-container { padding-top: 1.5rem !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. ENCABEZADO (Solución de Logo)
-# Usamos columnas pero con un truco para que el logo no falle
-col_logo, col_titulo = st.columns([1, 8])
+# 3. ENCABEZADO (Logo + Texto)
+# Usamos columnas nativas para que el logo no falle nunca
+col_logo, col_titulo = st.columns([1, 7])
 
 with col_logo:
-    # URL directa del escudo. Si no carga, Streamlit mostrará el espacio vacío sin errores.
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png", width=80)
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=95) # Aquí aparecerá el nuevo logo
+    else:
+        st.error("Sube el archivo logo.png a GitHub")
 
 with col_titulo:
-    st.markdown("""
-        <div class="header-text">
-            <p class="inst-title">Dirección de Servicios Públicos Domiciliarios</p>
-            <p class="inst-sub">Alcaldía de Villavicencio</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<p class="inst-title">Dirección de Servicios Públicos Domiciliarios</p>', unsafe_allow_html=True)
+    st.markdown('<p class="inst-sub">Alcaldía de Villavicencio</p>', unsafe_allow_html=True)
 
-st.markdown('<hr style="border: 0.5px solid rgba(255,255,255,0.2)">', unsafe_allow_html=True)
+st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.2)'>", unsafe_allow_html=True)
 
-# 4. CUERPO
-st.markdown(f"""
-    <h1 class="hero-title">
-        Somos el <span class="aguamarina">puente</span> entre la ciudadanía y los prestadores de servicios públicos domiciliarios
-    </h1>
-    <p style="font-size: 19px; opacity: 0.9; margin-bottom: 30px;">
-        Te orientamos sobre tus derechos y deberes, rutas de atención y trámites ante las empresas de acueducto, energía, gas y aseo.
-    </p>
-""", unsafe_allow_html=True)
-
-# Botones ajustados
-c1, c2, c3 = st.columns([2, 2, 3])
-with c1:
-    st.button("Ver empresas prestadoras")
-with c2:
-    st.button("Solicitar orientación")
+# 4. CUERPO (Puente en Aguamarina)
+st.markdown(f'<h1 class="hero-title">Somos el <span class="aguamarina">puente</span> entre la ciudadanía y los prestadores</h1>', unsafe_allow_html=True)
+st.write("Te orientamos sobre tus derechos y deberes, rutas de atención y trámites.")
