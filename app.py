@@ -1,13 +1,14 @@
 import streamlit as st
 
-# 1. CONFIGURACIÓN DE PÁGINA
+# 1. CONFIGURACIÓN DE PÁGINA (Base)
 st.set_page_config(
     page_title="DSPD Villavicencio",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="collapsed", # Sidebar cerrado por defecto
 )
 
-# 2. CSS DE PRECISIÓN
+# 2. ESTILOS CSS - SOLUCIÓN DE FONDO
+# Reemplaza todo el bloque CSS anterior por este. Es más limpio y robusto.
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
@@ -16,71 +17,113 @@ st.markdown("""
         --brand: #2B5AC4;
         --accent: #00B7FF;
         --aguamarina: #7FFFD4;
+        --text-white: #FFFFFF;
     }
 
+    /* Fondo Global y Fuente Principal */
     .stApp {
         background-color: var(--brand) !important;
-        color: white !important;
+        color: var(--text-white) !important;
         font-family: 'Montserrat', sans-serif !important;
     }
 
-    header[data-testid="stHeader"] { display: none !important; }
+    /* OCULTAR EL HEADER NATIVO DE STREAMLIT (El que causa el hueco) */
+    header[data-testid="stHeader"] {
+        display: none !important;
+    }
 
-    /* --- ENCABEZADO FIJO (Logo y Título) --- */
-    .fixed-header {
+    /* --- ENCABEZADO PERSONALIZADO FIJO --- */
+    #custom-header {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 10000;
+        z-index: 9999; /* Asegura que esté por encima de todo */
         background-color: var(--brand);
-        padding: 10px 5%;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 10px 5%; /* Padding controlado */
         display: flex;
         align-items: center;
-        height: 90px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        height: 100px; /* Alto fijo y controlado */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* Sombra para profundidad */
     }
 
-    .header-content {
+    #header-container {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 15px; /* Espacio entre logo y texto */
+        width: 100%;
     }
 
-    .logo-img {
-        height: 60px;
+    #logo-img {
+        height: 65px; /* Tamaño del logo ajustado y visible */
         width: auto;
+        border-radius: 50%; /* Opcional: forma circular para el logo */
     }
 
-    .header-text h1 {
+    #header-text {
+        color: var(--text-white) !important;
+    }
+
+    #header-text h1 {
         margin: 0 !important;
-        font-size: 20px !important;
+        font-size: 24px !important;
         font-weight: 800 !important;
-        color: white !important;
         line-height: 1.1 !important;
     }
 
-    .header-text p {
+    #header-text p {
         margin: 0 !important;
         color: var(--accent) !important;
         font-weight: 700;
-        font-size: 13px;
+        font-size: 14px;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
     /* --- AJUSTE DE ESPACIO PARA EL CONTENIDO --- */
-    .main-scroll-container {
-        margin-top: 100px; /* Reducido para eliminar el espacio excesivo */
+    /* Este es el cambio clave para eliminar el hueco */
+    .main-content {
+        margin-top: 110px; /* Exactamente el alto del header + un pequeño margen */
         padding: 0 5%;
     }
 
-    .section {
-        padding: 40px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* --- SISTEMA DE PESTAÑAS COMO MENÚ --- */
+    /* Para PC */
+    div[data-baseweb="tab-list"] {
+        background-color: transparent !important;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+    
+    div[data-baseweb="tab"] {
+        border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        background-color: transparent !important;
+        border-radius: 5px;
+        padding: 8px 16px;
+        color: var(--text-white) !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
     }
 
+    /* Pestaña activa (blanco) */
+    div[aria-selected="true"] {
+        background-color: var(--text-white) !important;
+        color: var(--brand) !important;
+    }
+    
+    /* Hover en pestañas */
+    div[data-baseweb="tab"]:hover {
+        border-color: var(--accent) !important;
+        color: var(--accent) !important;
+    }
+
+    /* Ocultar línea roja predeterminada */
+    div[data-baseweb="tab-highlight"] {
+        background-color: transparent !important;
+    }
+
+    /* --- SECCIONES DE CONTENIDO --- */
     .hero-text {
         font-size: clamp(30px, 5vw, 55px);
         font-weight: 800;
@@ -88,8 +131,8 @@ st.markdown("""
         margin-bottom: 25px;
     }
 
-    /* Resaltado Aguamarina */
-    .highlight-bridge {
+    /* Palabra "puente" en aguamarina */
+    .aguamarina-text {
         color: var(--aguamarina);
     }
 
@@ -98,21 +141,30 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 12px;
         padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    /* Estilos para formularios y botones */
+    .stButton>button {
+        background-color: var(--text-white) !important;
+        color: var(--brand) !important;
+        font-weight: 700 !important;
+        border: none !important;
+        border-radius: 8px !important;
     }
 
-    /* Sidebar / Menú móvil */
-    [data-testid="stSidebar"] { background-color: #1e3d85 !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. RENDER DEL ENCABEZADO FIJO (Logo + Títulos)
-logo_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png"
+# 3. RENDER DEL ENCABEZADO FIJO (Contenedor HTML Único)
+# Usamos HTML directo para un control total. Asegúrate de tener 'logo.png' o cambia la URL.
+logo_fallback_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escudo_de_Villavicencio.png/512px-Escudo_de_Villavicencio.png"
 
 st.markdown(f"""
-    <div class="fixed-header">
-        <div class="header-content">
-            <img src="{logo_url}" class="logo-img">
-            <div class="header-text">
+    <div id="custom-header">
+        <div id="header-container">
+            <img src="{logo_fallback_url}" id="logo-img">
+            <div id="header-text">
                 <h1>Dirección de Servicios Públicos Domiciliarios</h1>
                 <p>Alcaldía de Villavicencio</p>
             </div>
@@ -120,62 +172,54 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. MENÚ LATERAL (Sidebar)
-with st.sidebar:
-    st.markdown("### Menú")
-    st.markdown("---")
-    st.markdown("[🏠 Inicio](#inicio)")
-    st.markdown("[🏢 Empresas](#empresas)")
-    st.markdown("[🙋 Orientación](#orientacion)")
-    st.markdown("[🔍 ¿Qué hacemos?](#que-hacemos)")
-    st.markdown("[📞 Contacto](#contacto)")
+# 4. CONTENIDO PRINCIPAL (Dentro del div con margen superior)
+st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
-# 5. CONTENIDO PRINCIPAL
-st.markdown('<div class="main-scroll-container">', unsafe_allow_html=True)
+# Sistema de Pestañas como Menú de Navegación (Toda la navegación hacia abajo)
+# menu_options = ["🏠 Inicio", "🏢 Empresas Prestadoras", "🙋 Solicitar Orientación", "🔍 ¿Qué hacemos?"]
+# tabs = st.tabs(menu_options)
 
-# SECCIÓN 1: HERO (Con el color aguamarina en "puente")
-st.markdown('<div id="inicio" class="section">', unsafe_allow_html=True)
+# Para replicar exactamente el comportamiento de One-Page de Netlify, usaremos botones de ancla.
+c1, c2, c3, c4 = st.columns(4)
+with c1: st.markdown('<a href="#que-hacemos">¿Qué hacemos?</a>', unsafe_allow_html=True)
+with c2: st.markdown('<a href="#empresas">Empresas</a>', unsafe_allow_html=True)
+# ... (Los demás enlaces)
+st.markdown("---")
+
+
+# --- SECCIÓN 1: INICIO (Texto del Hero) ---
 st.markdown(f"""
     <h1 class="hero-text">
-        Somos el <span class="highlight-bridge">puente</span> entre la ciudadanía y los prestadores de servicios públicos domiciliarios
+        Somos el <span class="aguamarina-text">puente</span> entre la ciudadanía y los prestadores de servicios públicos domiciliarios
     </h1>
-    <p style="font-size: 19px; opacity: 0.9; max-width: 850px;">
+    <p style="font-size: 19px; opacity: 0.9; max-width: 850px; margin-bottom: 30px;">
         Te orientamos sobre tus derechos y deberes, rutas de atención y somos el apoyo institucional para mejorar la calidad en Villavicencio.
     </p>
 """, unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
 
-# SECCIÓN 2: EMPRESAS
-st.markdown('<div id="empresas" class="section">', unsafe_allow_html=True)
-st.subheader("Empresas Prestadoras")
-c1, c2, c3, c4 = st.columns(4)
-with c1: st.markdown('<div class="card"><b>EAAV</b><br>Acueducto</div>', unsafe_allow_html=True)
-with c2: st.markdown('<div class="card"><b>EMSA</b><br>Energía</div>', unsafe_allow_html=True)
-with c3: st.markdown('<div class="card"><b>Llanogas</b><br>Gas</div>', unsafe_allow_html=True)
-with c4: st.markdown('<div class="card"><b>Bioagrícola</b><br>Aseo</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+col1, col2 = st.columns(2)
+with col1:
+    st.button("Ver empresas prestadoras")
+with col2:
+    st.button("Solicitar orientación")
 
-# SECCIÓN 3: ORIENTACIÓN
-st.markdown('<div id="orientacion" class="section">', unsafe_allow_html=True)
-st.subheader("Solicitar Orientación Ciudadana")
-with st.form("pqr_main"):
-    st.text_input("Nombre completo")
-    st.selectbox("Servicio", ["Agua", "Luz", "Gas", "Aseo"])
-    st.text_area("Describa su inquietud")
-    st.form_submit_button("Enviar")
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown("---")
 
-# SECCIÓN 4: ¿QUÉ HACEMOS?
-st.markdown('<div id="que-hacemos" class="section">', unsafe_allow_html=True)
+# --- SECCIÓN 2: ¿QUÉ HACEMOS? (Con ID para ancla) ---
+st.markdown('<div id="que-hacemos"></div>', unsafe_allow_html=True)
 st.subheader("¿Qué hacemos?")
-st.markdown('<div class="card">Garantizamos que la prestación de los servicios cumpla con los estándares de ley y acompañamos al usuario en sus trámites.</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('<div class="card">Orientamos al ciudadano y vigilamos la calidad de los servicios de agua, energía, gas y aseo.</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True) # Fin main-scroll-container
+# --- SECCIÓN 3: EMPRESAS (Con ID para ancla) ---
+st.markdown('<div id="empresas"></div>', unsafe_allow_html=True)
+st.subheader("Empresas Prestadoras")
+st.write("📍 Calle 40 No. 33-64 Centro")
 
-# 6. FOOTER
+st.markdown('</div>', unsafe_allow_html=True) # Cierre main-content
+
+# 5. FOOTER
 st.markdown("""
-    <div style="text-align: center; padding: 30px; opacity: 0.5; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
-        Villavicencio, Meta — 2026
-    </div>
+    <footer style="text-align: center; padding: 30px; opacity: 0.5; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+        Villavicencio, Meta — 2026 | Dirección de Servicios Públicos
+    </footer>
 """, unsafe_allow_html=True)
