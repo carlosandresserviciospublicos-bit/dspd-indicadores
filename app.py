@@ -92,3 +92,59 @@ with c1:
     st.button("Ver empresas prestadoras")
 with c2:
     st.button("Solicitar orientación")
+
+# 5. SECCIÓN DE TARJETAS DE SERVICIOS
+st.markdown("""
+    <style>
+    /* Estilo de la cuadrícula de tarjetas */
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    /* Estilo de cada tarjeta individual */
+    .card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 30px 20px;
+        text-align: center;
+        transition: transform 0.3s, background-color 0.3s;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 180px;
+    }
+
+    .card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+        border-color: #7FFFD4;
+    }
+
+    .card-text {
+        font-weight: 600;
+        font-size: 18px;
+        color: white;
+    }
+    </style>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-text">Derechos y Deberes</div>
+        </div>
+        <div class="card">
+            <div class="card-text">Rutas de atención</div>
+        </div>
+        <div class="card">
+            <div class="card-text">Empresas Prestadoras</div>
+        </div>
+        <div class="card">
+            <div class="card-text">Orientación DSP</div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
