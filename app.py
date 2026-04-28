@@ -80,7 +80,7 @@ with c1:
     if st.button("Ver empresas prestadoras"):
         st.markdown('<script>window.location.href="#empresas";</script>', unsafe_allow_html=True)
 with c2: 
-    st.button("Solicitar orientación")
+    st.button("Solicitar orientación Ciudadana")
 
 # 5. SECCIÓN: ¿QUÉ HACEMOS?
 st.markdown("""
@@ -132,7 +132,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # 7. SECCIÓN: ORIENTACIÓN (Formulario)
 st.markdown('<div id="orientacion" class="section-container">', unsafe_allow_html=True)
-st.markdown('<h2 class="section-title">Solicitar Orientación</h2>', unsafe_allow_html=True)
+st.markdown('<h2 class="section-title">Solicitar Orientación Ciudadana</h2>', unsafe_allow_html=True)
 with st.form("orientacion_form"):
     st.write("Déjanos tus datos y nos pondremos en contacto.")
     nombre = st.text_input("Nombre completo")
